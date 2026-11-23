@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2 style="margin-bottom: 20px;">Your Career Analysis History</h2>
+
+    {% if reports %}
+        {% for r in reports %}
+        <div class="results-section" style="margin-bottom: 30px; background: white; border: 1px solid #e5e7eb;">
+            <p style="font-size: 0.8rem; color: #666;">Resume Preview:</p>
+            <p style="font-style: italic; color: #1f2937;">"{{ r.resume[:150] }}..."</p>
+            <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+
+            <h4 style="color: #2563eb;">✦ Analysis Result</h4>
+            <div class="skills-grid" style="margin-top: 10px;">
+                <strong>Skills Found:</strong>
+                {% for s in r.result.get("skills", []) %}{{ s }}{% if not loop.last %}, {% endif %}{% endfor %}
+            </div>
+            
+            <div style="margin-top: 10px; font-size: 0.9rem;">
+                <strong>Key Recommendation:</strong>
+                {{ r.result.get("roadmap", ["No specific roadmap"])[0] }}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="auth-card" style="width: 100%;">
+            <p>No history found yet. Go to Dashboard to start!</p>
+            <a href="/dashboard" class="btn" style="text-decoration: none; display: inline-block;">Go to Dashboard</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 
